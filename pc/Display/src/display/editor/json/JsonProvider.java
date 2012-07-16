@@ -29,6 +29,7 @@ public class JsonProvider {
     public JsonProvider(SceneManager manager) {
         this.manager = manager;
         JsonSceneList.addMethods(this);
+        JsonScene.addMethods(this);
     }
 
     public void call(String path, DataOutputStream output, boolean printBody) throws IOException {

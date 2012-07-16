@@ -27,7 +27,7 @@ public class JsonSceneList {
 
             @Override
             public String getName() {
-                return "listSceneTypes";
+                return "types";
             }
 
             @Override
@@ -42,7 +42,7 @@ public class JsonSceneList {
 
             @Override
             public String getName() {
-                return "addScene";
+                return "scene/add";
             }
 
             @Override
@@ -68,7 +68,7 @@ public class JsonSceneList {
 
             @Override
             public String getName() {
-                return "listScenes";
+                return "scenes";
             }
 
             public void call(Map<String, String> params, DataOutputStream output, SceneManager manager) throws IOException {
