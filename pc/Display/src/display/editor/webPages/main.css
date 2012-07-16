@@ -1,7 +1,47 @@
-			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
-			.demoHeaders { margin-top: 2em; }
-			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
-			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
-			ul#icons {margin: 0; padding: 0;}
-			ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
-			ul#icons span.ui-icon {float: left; margin: 0 4px;}
+html,body {
+    height:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+#container {
+    width:100%;
+    height:100%;
+}
+
+#menu,#footer {
+}
+#auto {
+}
+
+#menu {
+    height: 70px;
+    background-color: silver;
+}
+#footer {
+    height: 20px;
+    background-color: silver;
+}
+
+
+#auto {
+    height:100%;
+    overflow:hidden;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    box-sizing:border-box;
+    margin:-45px 0;
+    padding:45px 0;
+}
+#scenelist {
+    float:left;
+    overflow:auto;
+    height:100%;
+    width:15em;
+}
+#details{
+    overflow:auto;
+    height:100%;
+}
