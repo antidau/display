@@ -1,10 +1,17 @@
 $(function(){
 
     function loadSceneList() {
-        $().ajax({
-            page: '/json/scenes'
+        $.ajax({
+            url: '/json/scene/list',
+            dataType: 'json',
+            success: function(msg) {
+                alert(msg[1]);
+            },
+            fail: function(err) {
+                alert(err);
+            }
+            
         })
     }
-    
-    $('#table2').colResizable();
+    loadSceneList();
 });

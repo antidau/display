@@ -10,6 +10,8 @@ import display.editor.WebServer;
 import display.scene.Scene;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,12 +70,16 @@ public class JsonSceneList {
 
             @Override
             public String getName() {
-                return "scenes";
+                return "scene/list";
             }
 
             public void call(Map<String, String> params, DataOutputStream output, SceneManager manager) throws IOException {
                 output.writeBytes(WebServer.httpHeader(200));
-                output.writeBytes("hello");
+                List<String> names = new ArrayList<String>();
+                for (Scene scene : manager.getScenes()) {
+                    names.add(scene.getName());
+                }
+                mapper.writeValue(output, names);
             }
         });
     }
