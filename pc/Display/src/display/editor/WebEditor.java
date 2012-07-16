@@ -4,6 +4,8 @@
  */
 package display.editor;
 
+import display.editor.json.JsonProvider;
+import display.SceneManager;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,10 +18,14 @@ import javax.activation.MimetypesFileTypeMap;
  */
 public class WebEditor implements WebRequestHandler {
 
+    SceneManager manager;
     WebServer server;
+    JsonProvider json;
     MimetypesFileTypeMap mime = new MimetypesFileTypeMap();
 
-    public WebEditor() {
+    public WebEditor(SceneManager manager) {
+        this.manager = manager;
+        json = new JsonProvider(manager);
         server = new WebServer(this);
         mime.addMimeTypes("text/html html htm");
         mime.addMimeTypes("image/png png");
@@ -127,16 +133,10 @@ public class WebEditor implements WebRequestHandler {
             output.writeBytes("\r\n");
             System.out.println("redirected");
         } else if (path.startsWith("/json/")) {
-            readJson(path, output, printBody);
+            json.call(path,output,printBody);
         } else {
             readFile(path, output, printBody);
         }
 
-    }
-
-    private void readJson(String path, DataOutputStream output, boolean printBody) throws IOException {
-
-        output.writeBytes(WebServer.httpHeader(200));
-        output.writeBytes("JSON");
     }
 }

@@ -4,12 +4,7 @@
  */
 package display;
 
-import display.draw.AwtDrawer;
-import display.draw.Drawer;
-import display.draw.Image;
 import display.editor.WebEditor;
-import display.scene.Scene;
-import display.scene.SineScene;
 
 /**
  *
@@ -28,12 +23,14 @@ public class Display implements StopListener {
     }
     boolean stop;
     public Display() {
+        SceneManager manager = new SceneManager();
+        new WebEditor(manager).start();
                 //AudioSource source = new PulseSource();
-        //Drawer drawer = new AwtDrawer(this);
-        //Scene scene = new SineScene();
-        new WebEditor().start();
+        /*MultiDrawer drawer = new MultiDrawer();
+        drawer.addDrawer(new AwtDrawer(this));
+        Scene scene = new SineScene();
         
-        /*Image img = new Image();
+        Image img = new Image();
         stop = false;
         long t = System.nanoTime();
         long second = t;
