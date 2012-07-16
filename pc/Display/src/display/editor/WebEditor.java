@@ -15,39 +15,40 @@ import javax.activation.MimetypesFileTypeMap;
  * @author wilson
  */
 public class WebEditor implements WebRequestHandler {
-
+    
     WebServer server;
-
     MimetypesFileTypeMap mime = new MimetypesFileTypeMap();
+
     public WebEditor() {
         server = new WebServer(this);
         mime.addMimeTypes("text/html html htm");
-        mime.addMimeTypes("image/png png"); 
+        mime.addMimeTypes("image/png png");        
     }
-
+    
     public void stop() {
         server.wantStop();
     }
-
+    
     public void start() {
         server.start();
     }
-
+    
     protected String escapePath(String path) {
-        if (path.contains("..")) return null;
+        if (path.contains("..")) {
+            return null;
+        }
         return "/display/editor/webPages" + path;
     }
-
+    
     protected void readFile(String path, DataOutputStream output,
             boolean printBody) throws IOException {
         try {
-
+            
             String p = escapePath(path);
-            InputStream requestedfile = this.getClass()
-                                .getResourceAsStream(p);
+            InputStream requestedfile = this.getClass().getResourceAsStream(p);
             String file_type = mime.getContentType(new File(p.toLowerCase()));
-
-            if (requestedfile!=null) {
+            
+            if (requestedfile != null) {
                 output.writeBytes(WebServer.httpHeader(200, file_type));
                 if (printBody) {
                     byte[] buf = new byte[1024];
@@ -69,14 +70,14 @@ public class WebEditor implements WebRequestHandler {
                 output.writeBytes("error");
             } catch (Exception e2) {
             }
-
+            
         }
     }
-
+    
     @Override
     public void handleRequest(String path, DataOutputStream output,
             boolean printBody) throws IOException {
-
+        
         System.out.println("Client requested: " + path);
 
         //Redirect to index
@@ -86,11 +87,16 @@ public class WebEditor implements WebRequestHandler {
             output.writeBytes("\r\n");
             System.out.println("redirected");
         } else if (path.startsWith("/json/")) {
-            output.writeBytes(WebServer.httpHeader(200));
-            System.out.println("json stuff");
+            readJson(path, output, printBody);
         } else {
             readFile(path, output, printBody);
         }
-
+        
+    }
+    
+    private void readJson(String path, DataOutputStream output, boolean printBody) throws IOException {
+        
+        output.writeBytes(WebServer.httpHeader(200));
+        output.writeBytes("JSON");
     }
 }
