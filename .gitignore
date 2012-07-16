@@ -1,9 +1,5 @@
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
 /pc/Display/dist/
 /pc/Display/nbproject/private/
 /pc/Display/build/
