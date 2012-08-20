@@ -4,7 +4,18 @@
  */
 package display;
 
-import display.editor.WebEditor;
+import display.draw.AwtDrawer;
+import display.draw.Image;
+import display.draw.MultiDrawer;
+import display.scene.Scene;
+import display.scene.SineScene;
+import display.scene.SoundScene;
+import display.scene.sound.AudioSource;
+import display.scene.sound.Fourier;
+import display.scene.sound.JavaSource;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.LineUnavailableException;
 
 /**
  *
@@ -18,40 +29,58 @@ public class Display implements StopListener {
     public static void main(String[] args) {
         //Without doing anything with comparables, i get exceptions otherwise...
         System.setProperty("java.util.Arrays.useLegacyMergeSort", new Boolean(true).toString());
-        
+
         new Display();
     }
     boolean stop;
+
     public Display() {
-        SceneManager manager = new SceneManager();
-        new WebEditor(manager).start();
-                //AudioSource source = new PulseSource();
-        /*MultiDrawer drawer = new MultiDrawer();
-        drawer.addDrawer(new AwtDrawer(this));
-        Scene scene = new SineScene();
-        
-        Image img = new Image();
-        stop = false;
-        long t = System.nanoTime();
-        long second = t;
-        long frames = 0;
-        while (!stop) {
-            long oldT = t;
-            t = System.nanoTime();
-            float delta = (t - oldT)/1000000000f;
-            scene.drawFrame(img,delta);
-            drawer.drawImage(img);
+        try {
+            /* SoundActionListener out = new SoundToStdOut();
+             out = new Fourier(out);
+             try {
+             AudioSource source = new JavaSource(out);
+     
+             } catch (LineUnavailableException ex) {
+             Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+             }*/
+            /*SceneManager manager = new SceneManager();
+             new WebEditor(manager).start();*/
+            AudioSource source = new JavaSource();
+            Fourier fourier = new Fourier(source);
+            Scene scene = new SoundScene(fourier);
             
-            frames++;
-            //TODO: FPS limiter
-            if ((t-second)>1000000000) {
-                //System.out.println(frames);
-                frames=0;
-                second = t;
+            System.out.println("Max freq: "+(fourier.getFrequencyIncrease()*fourier.getResultSize()));
+            
+            MultiDrawer drawer = new MultiDrawer();
+            drawer.addDrawer(new AwtDrawer(this));
+
+            Image img = new Image();
+            stop = false;
+            long t = System.nanoTime();
+            long second = t;
+            long frames = 0;
+            while (!stop) {
+                long oldT = t;
+                t = System.nanoTime();
+                float delta = (t - oldT) / 1000000000f;
+                scene.drawFrame(img, delta);
+                drawer.drawImage(img);
+
+                frames++;
+                //TODO: FPS limiter
+                /*if ((t - second) > 1000000000) {
+                    System.out.println(frames+" fps");
+                    frames = 0;
+                    second = t;
+                }*/
             }
+            scene.stop();
+            drawer.stop();
+            source.stop();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
         }
-        scene.stop();
-        drawer.stop();*/
     }
 
     @Override

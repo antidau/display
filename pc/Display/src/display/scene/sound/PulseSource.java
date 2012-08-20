@@ -16,6 +16,26 @@ import java.util.logging.Logger;
  */
 public class PulseSource extends AudioSource {
 
+    @Override
+    public int getSamplesPerSecond() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int getBufferSize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean addSoundSourceListener(SoundSourceListener l) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean removeSoundSourceListener(SoundSourceListener l) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     class PulseThread extends Thread {
 
         Process process;
@@ -58,7 +78,7 @@ public class PulseSource extends AudioSource {
     }
     PulseThread thread;
 
-    public PulseSource(SoundActionListener listener) {
+    public PulseSource(SoundSourceListener listener) {
         thread = new PulseThread(this);
         thread.start();
     }

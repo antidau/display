@@ -4,28 +4,56 @@
  */
 package display.draw;
 
-import display.BeanEditor;
 import display.StopListener;
+import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
+import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
+class Content extends Canvas {
+
+    public Image data;
+
+    public void paint() {
+        Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
+        int w = this.getWidth() / Image.WIDTH;
+        int h = this.getHeight() / Image.HEIGHT;
+        for (int y = 0; y < Image.HEIGHT; y++) {
+            for (int x = 0; x < Image.WIDTH; x++) {
+                float d = data.data[y][x];
+                Color c = new Color(0f, 0f, d);
+                g.setColor(c);
+                g.fillRect(x * w, y * h, (x + 1) * w, (y + 1) * h);
+            }
+        }
+	g.dispose();
+	strategy.show();
+    }
+    BufferStrategy strategy;
+
+    public void init() {
+        setIgnoreRepaint(true);
+        createBufferStrategy(2);
+        strategy = getBufferStrategy();
+    }
+}
 //TODO: Quadratic pixelz
+
 /**
  *
  * @author wilson
  */
 public class AwtDrawer extends Drawer {
-    JFrame frame;
-    JPanel[][] content;
 
+    JFrame frame;
+    //JPanel[][] content;
+
+    Content content;
     public AwtDrawer(final StopListener listen) {
         frame = new JFrame();
-        frame.setLayout(new GridLayout(Image.HEIGHT, Image.WIDTH));
 
         frame.setSize(640, 480);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -35,33 +63,17 @@ public class AwtDrawer extends Drawer {
                 listen.stop();
             }
         });
-
-        content = new JPanel[Image.HEIGHT][Image.WIDTH];
-
-        for (int y = 0; y < Image.HEIGHT; y++) {
-            for (int x = 0; x < Image.WIDTH; x++) {
-                JPanel panel = new JPanel();
-
-                content[y][x] = panel;
-                frame.add(panel);
-            }
-        }
-
-
         frame.setVisible(true);
+        content = new Content();
+        frame.getContentPane().add(content);
+        content.init();
+
     }
 
     @Override
     public void drawImage(Image data) {
-        for (int y = 0; y < Image.HEIGHT; y++) {
-            for (int x = 0; x < Image.WIDTH; x++) {
-                float d = data.data[y][x];
-                JPanel panel = content[y][x];
-                Color c = new Color(0f, 0f, d);
-                panel.setBackground(c);
-            }
-        }
-        frame.repaint();
+        content.data = data;
+        content.paint();
     }
 
     @Override

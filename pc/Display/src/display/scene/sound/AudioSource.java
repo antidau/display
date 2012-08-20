@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * unsigned, 8 bit mono!
  */
 package display.scene.sound;
 
@@ -10,4 +9,8 @@ package display.scene.sound;
  */
 public abstract class AudioSource {
     public abstract void stop();
+    public abstract int getSamplesPerSecond();
+    public abstract int getBufferSize();
+    public abstract boolean addSoundSourceListener(SoundSourceListener l);
+    public abstract boolean removeSoundSourceListener(SoundSourceListener l);
 }
