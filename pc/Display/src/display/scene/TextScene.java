@@ -18,18 +18,21 @@ public class TextScene extends Scene {
         return "Text";
     }
     
-    String content = "Hello World";
-    Font font = new Font();
+    String content = "Hello World!";
+    float scrollSpeed = 0.05f;
     Character fallback='?';
-    int position=0;
-    float deltasum=0;
+    int position=64;
+    boolean loop = true;
     
+    
+    Font font = new Font();
+    float deltasum=0;
     
     @Override
     public void drawFrame(Image img, float delta) {
         deltasum+=delta;
         
-        if (deltasum>1f) { position--; deltasum-=1f; System.out.println("hello");}
+        while (deltasum>scrollSpeed) { position--; deltasum-=scrollSpeed; }
         int relposition = position;
         int currentChar =0;
         while (relposition<Image.WIDTH && currentChar<content.length()) {
@@ -55,11 +58,14 @@ public class TextScene extends Scene {
                 relposition+=6;
                 
             }
-            currentChar++;
+            currentChar++; 
             
         }
         //Fill Space right of text
         img.fillRect(relposition, 0, Image.WIDTH, Image.HEIGHT, 0);
+        
+        //Check if whole text is outside on the left
+        if (relposition<0 && loop) position=64;
     }
     
 }
