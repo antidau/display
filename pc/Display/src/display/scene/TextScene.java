@@ -6,6 +6,9 @@ package display.scene;
 
 import display.draw.Image;
 import display.scene.text.Font;
+import display.scene.text.FontVarWidth;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -18,18 +21,20 @@ public class TextScene extends Scene {
         return "Text";
     }
     
-    String content = "Hello World!";
-    float scrollSpeed = 0.05f;
+    String content = "Hällo World!";
+    float scrollSpeed = Float.POSITIVE_INFINITY;
     Character fallback='?';
-    int position=64;
+    int position=0;
     boolean loop = true;
     
     
-    Font font = new Font();
+    Font font = new FontVarWidth();
     float deltasum=0;
+    
     
     @Override
     public void drawFrame(Image img, float delta) {
+        
         deltasum+=delta;
         
         while (deltasum>scrollSpeed) { position--; deltasum-=scrollSpeed; }
@@ -41,21 +46,19 @@ public class TextScene extends Scene {
             
             if (data!=null) {
                 
-                for (int x =0;x<6;x++) {
+                for (int x =0;x<data.length;x++) {
                     if (relposition+x>=Image.WIDTH) break;
                     if (relposition+x<0) continue;
                     for (int y=0;y<8;y++) {
-                        int p;
-                        //Last column is always empty
-                        if (x==5) p=0; 
                         //Get right bit for current pixel
-                        else p=(data[x] >> y) & 1;
+                        int p=(data[x] >> y) & 1;
                         img.data[y][x+relposition]=p;
                     }
                     
                 }
                 //Clear space column
-                relposition+=6;
+                relposition+=data.length+1;
+                img.fillRect(relposition-1, 0, relposition, Image.HEIGHT, 0);
                 
             }
             currentChar++; 
