@@ -17,16 +17,26 @@ class Content extends Canvas {
 
     public Image data;
 
+    /**
+     * If true, make Width and Height of pixels the same.
+     * If false, fill whole window
+     */
+    final static boolean squarePixels = true;
+    
     public void paint() {
         Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
         int w = this.getWidth() / Image.WIDTH;
         int h = this.getHeight() / Image.HEIGHT;
+        if (squarePixels) {
+            w = w<h?w:h;
+            h = w;
+        }
         for (int y = 0; y < Image.HEIGHT; y++) {
             for (int x = 0; x < Image.WIDTH; x++) {
                 float d = data.data[y][x];
                 Color c = new Color(0f, 0f, d);
                 g.setColor(c);
-                g.fillRect(x * w, y * h, (x + 1) * w, (y + 1) * h);
+                g.fillRect(x * w, y * h, w, h);
             }
         }
 	g.dispose();
@@ -40,7 +50,6 @@ class Content extends Canvas {
         strategy = getBufferStrategy();
     }
 }
-//TODO: Quadratic pixelz
 
 /**
  *
