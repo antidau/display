@@ -8,10 +8,8 @@ import display.draw.AwtDrawer;
 import display.draw.Image;
 import display.draw.MultiDrawer;
 import display.scene.Scene;
-import display.scene.SineScene;
 import display.scene.SoundScene;
 import display.scene.sound.AudioSource;
-import display.scene.sound.Fourier;
 import display.scene.sound.JavaSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,10 +45,9 @@ public class Display implements StopListener {
             /*SceneManager manager = new SceneManager();
              new WebEditor(manager).start();*/
             AudioSource source = new JavaSource();
-            Fourier fourier = new Fourier(source);
-            Scene scene = new SoundScene(fourier);
+            Scene scene = new SoundScene(source);
             
-            System.out.println("Max freq: "+(fourier.getFrequencyIncrease()*fourier.getResultSize()));
+            
             
             MultiDrawer drawer = new MultiDrawer();
             drawer.addDrawer(new AwtDrawer(this));
@@ -69,11 +66,11 @@ public class Display implements StopListener {
 
                 frames++;
                 //TODO: FPS limiter
-                /*if ((t - second) > 1000000000) {
+                if ((t - second) > 1000000000) {
                     System.out.println(frames+" fps");
                     frames = 0;
                     second = t;
-                }*/
+                }
             }
             scene.stop();
             drawer.stop();

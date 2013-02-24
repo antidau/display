@@ -34,7 +34,7 @@ public class JavaSource extends AudioSource {
                 sampleSizeInBits, channels, signed, bigEndian);
     }
     boolean running = false;
-    final static int bufferSize = 512;
+    final static int bufferSize = 1024;
 
     public JavaSource() throws LineUnavailableException {
         final AudioFormat format = getFormat();
@@ -50,6 +50,7 @@ public class JavaSource extends AudioSource {
             long readTime =0;
             long calcTime=0;
             long output;
+            int count=0;
 
             public void run() {
                 running = true;
@@ -64,6 +65,7 @@ public class JavaSource extends AudioSource {
 
                     //TODO: new thread?
                     if (bufferOffset == bufferSize) {
+                        count++;
                         long beforeCalc = System.nanoTime();
                         for (SoundSourceListener l : listeners) {
                             l.dataArrived(buffer);
@@ -76,9 +78,11 @@ public class JavaSource extends AudioSource {
                         //TODO: reuse old buffers
                     }
                     long current = System.nanoTime();
-                    //Every ten seconds
+                    //Every second
                     if ((current-output) > 1000000000) {
-                        System.out.println(100f*calcTime/(calcTime+readTime)+"% calc");
+                        //System.out.println(count+" frames");
+                        count=0;
+                        //System.out.println(100f*calcTime/(calcTime+readTime)+"% calc");
                         readTime=0;
                         calcTime=0;
                         output = current;
