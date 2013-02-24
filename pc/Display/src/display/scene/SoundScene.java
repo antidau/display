@@ -9,6 +9,13 @@ import display.draw.Image;
 import display.scene.sound.AudioSource;
 import display.scene.sound.SoundSourceListener;
 
+
+enum Style {
+    
+    BAR,
+    COLOR;
+    
+}
 /**
  *
  * @author wilson
@@ -17,28 +24,38 @@ public class SoundScene extends Scene implements SoundSourceListener{
 
     final static double scale = 0.0005;
     final static double decay = 0.6;
-    final static double offset = 0.0;
     
-    int max;
+    Style style = Style.BAR;
+    
+    int maxX; // Maximum x coordinate, limited by fft's available bands and display width
     @Override
     public void drawFrame(Image img, float delta) {
         
-        for (int x=0;x<max;x++) {
+        for (int x=0;x<maxX;x++) {
             
             
             
             double val = fft.getAvg(x)*scale;
             
-            double pixelH = 1f/Image.HEIGHT;
-            for (int y=Image.HEIGHT-1;y>=0;y--) {
-                if (val>pixelH)
-                    img.data[y][x]=1;
-                else if (val<=0) {
-                    img.data[y][x]=0;
-                } else {
-                    img.data[y][x]=(float) (val / pixelH);
+            if (style==Style.BAR) {
+                double pixelH = 1f/Image.HEIGHT;
+                for (int y=Image.HEIGHT-1;y>=0;y--) {
+                    if (val>pixelH)
+                        img.data[y][x]=1;
+                    else if (val<=0) {
+                        img.data[y][x]=0;
+                    } else {
+                        img.data[y][x]=(float) (val / pixelH);
+                    }
+                    val-=pixelH;
                 }
-                val-=pixelH;
+            } else if (style==Style.COLOR) {
+                //Clamp to (0,1)
+                val = val>1?1:val<0?0:val;
+                for (int y=0;y<Image.HEIGHT;y++) {
+                    img.data[y][x]=(float) val;
+                }
+                
             }
         }
         
@@ -60,20 +77,13 @@ public class SoundScene extends Scene implements SoundSourceListener{
         fft.forward(realData);
     }
     
-    protected double inv(double y) {
-        return Math.log(y);
-    }
-    protected double f(double x) {
-        return Math.exp(x);
-    }
-    
     FFT fft;
     public SoundScene(AudioSource source) {
         fft = new FFT(source.getBufferSize(), source.getSamplesPerSecond());
         source.addSoundSourceListener(this);
-         fft.logAverages(40, 7);
-         System.out.println("Bands: "+fft.avgSize());
-        max=Image.WIDTH>fft.avgSize()?fft.avgSize():Image.WIDTH;
+        fft.logAverages(40, 7);
+        
+        maxX=Image.WIDTH>fft.avgSize()?fft.avgSize():Image.WIDTH;
     }
 
 
