@@ -1,4 +1,4 @@
 display
 =======
 
-Software for a 64x8 pixel LED Display
+Creating a 64x8 Pixel Display out of discrete LEDs, driven by an ATMEGA328.
