@@ -8,7 +8,10 @@ import display.draw.AwtDrawer;
 import display.draw.Image;
 import display.draw.MultiDrawer;
 import display.scene.Scene;
+import display.scene.SineScene;
 import display.scene.SoundScene;
+import display.scene.TextScene;
+import display.scene.combine.MultiplyScene;
 import display.scene.sound.AudioSource;
 import display.scene.sound.JavaSource;
 import java.util.logging.Level;
@@ -45,7 +48,9 @@ public class Display implements StopListener {
             /*SceneManager manager = new SceneManager();
              new WebEditor(manager).start();*/
             AudioSource source = new JavaSource();
-            Scene scene = new SoundScene(source);
+            //Scene scene = new SoundScene(source);
+            //Scene scene = new TextScene();
+            Scene scene = new MultiplyScene(new Scene[] {new TextScene(),new SoundScene(source)});
             
             
             
