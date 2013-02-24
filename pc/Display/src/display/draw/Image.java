@@ -19,8 +19,12 @@ public class Image {
         data = new float[HEIGHT][WIDTH];
     }
     public void fill(float color) {
-        for (int y=0;y<HEIGHT;y++)
-            for (int x=0;x<WIDTH;x++)
+        fillRect(0,0,WIDTH,HEIGHT,color);
+    }
+    
+    public void fillRect(int left, int top, int right, int bottom, float color) {
+        for (int y=top;y<bottom;y++)
+            for (int x=left;x<right;x++)
                 data[y][x]=color;
     }
 }
