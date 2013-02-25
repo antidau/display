@@ -10,6 +10,7 @@ import display.draw.MultiDrawer;
 import display.scene.Scene;
 import display.scene.SineScene;
 import display.scene.SoundScene;
+import display.scene.SoundSceneStyle;
 import display.scene.TextScene;
 import display.scene.combine.MultiplyScene;
 import display.scene.sound.AudioSource;
@@ -37,20 +38,12 @@ public class Display implements StopListener {
 
     public Display() {
         try {
-            /* SoundActionListener out = new SoundToStdOut();
-             out = new Fourier(out);
-             try {
-             AudioSource source = new JavaSource(out);
-     
-             } catch (LineUnavailableException ex) {
-             Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-             }*/
             /*SceneManager manager = new SceneManager();
              new WebEditor(manager).start();*/
             AudioSource source = new JavaSource();
             //Scene scene = new SoundScene(source);
             //Scene scene = new TextScene();
-            Scene scene = new MultiplyScene(new Scene[] {new TextScene(),new SoundScene(source)});
+            Scene scene = new MultiplyScene(new Scene[] {new SoundScene(source,SoundSceneStyle.COLOR),new SoundScene(source),new TextScene()});
             
             
             

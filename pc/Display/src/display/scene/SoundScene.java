@@ -10,20 +10,17 @@ import display.scene.sound.AudioSource;
 import display.scene.sound.SoundSourceListener;
 
 
-enum Style {
-    BAR,
-    COLOR;
-}
 /**
  *
  * @author wilson
  */
-public class SoundScene extends Scene implements SoundSourceListener{
+public class SoundScene extends Scene implements SoundSourceListener {
     //TODO: Dynamically adjust scale
+    //TODO: Share FFT between multiple SoundScenes so no unneccessary FFTs are performed
     final static double scale = 0.0005;
     final static double decay = 0.6;
     
-    Style style = Style.BAR;
+    SoundSceneStyle style = SoundSceneStyle.BAR;
     
     int maxX; // Maximum x coordinate, limited by fft's available bands and display width
     @Override
@@ -35,7 +32,7 @@ public class SoundScene extends Scene implements SoundSourceListener{
             
             double val = fft.getAvg(x+8)*scale;
             
-            if (style==Style.BAR) {
+            if (style==SoundSceneStyle.BAR) {
                 double pixelH = 1f/Image.HEIGHT;
                 for (int y=Image.HEIGHT-1;y>=0;y--) {
                     if (val>pixelH)
@@ -47,7 +44,7 @@ public class SoundScene extends Scene implements SoundSourceListener{
                     }
                     val-=pixelH;
                 }
-            } else if (style==Style.COLOR) {
+            } else if (style==SoundSceneStyle.COLOR) {
                 //Clamp to (0,1)
                 val = Math.max(0, Math.min(1, val));
                 for (int y=0;y<Image.HEIGHT;y++) {
@@ -83,7 +80,10 @@ public class SoundScene extends Scene implements SoundSourceListener{
         
         maxX=Image.WIDTH>fft.avgSize()?fft.avgSize():Image.WIDTH;
     }
-
+    public SoundScene(AudioSource source, SoundSceneStyle style) {
+        this(source);
+        this.style = style;
+    }
 
     
 }
