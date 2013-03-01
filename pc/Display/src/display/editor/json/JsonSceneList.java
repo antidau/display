@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public class JsonSceneList extends MethodCollection {
 
+    @Override
     public void addMethods(JsonProvider provider) {
         final ObjectMapper mapper = new ObjectMapper();
         
