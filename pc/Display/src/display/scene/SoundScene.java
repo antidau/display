@@ -3,6 +3,7 @@ package display.scene;
 import ddf.minim.analysis.FFT;
 import display.draw.Image;
 import display.scene.sound.AudioSource;
+import display.scene.sound.AudioSourceFactory;
 import display.scene.sound.SoundSourceListener;
 
 
@@ -68,15 +69,16 @@ public class SoundScene extends Scene implements SoundSourceListener {
     }
     
     FFT fft;
-    public SoundScene(AudioSource source) {
+    public SoundScene() {
+        AudioSource source = AudioSourceFactory.getAudioSource();
         fft = new FFT(source.getBufferSize(), source.getSamplesPerSecond());
         source.addSoundSourceListener(this);
         fft.logAverages(40, 8);
         
         maxX=Image.WIDTH>fft.avgSize()?fft.avgSize():Image.WIDTH;
     }
-    public SoundScene(AudioSource source, SoundSceneStyle style) {
-        this(source);
+    public SoundScene(SoundSceneStyle style) {
+        this();
         this.style = style;
     }
 

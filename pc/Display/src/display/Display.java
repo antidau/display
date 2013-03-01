@@ -4,12 +4,7 @@ import display.draw.AwtDrawer;
 import display.draw.Image;
 import display.draw.MultiDrawer;
 import display.editor.WebEditor;
-import display.scene.Scene;
-import display.scene.SoundScene;
-import display.scene.SoundSceneStyle;
-import display.scene.TextScene;
-import display.scene.combine.MultiplyScene;
-import display.scene.sound.AudioSource;
+import display.scene.sound.AudioSourceFactory;
 import display.scene.sound.JavaSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,15 +31,13 @@ public class Display implements StopListener {
     public Display() {
         try {
             SceneManager manager = new SceneManager();
-             new WebEditor(manager).start();
-            AudioSource source = new JavaSource();
-            //Scene scene = new SoundScene(source);
-            //Scene scene = new TextScene();
-            Scene scene = new MultiplyScene(new Scene[] {new SoundScene(source,SoundSceneStyle.COLOR),new SoundScene(source),new TextScene()});
+            WebEditor editor = new WebEditor(manager);
+            editor.start();
+            AudioSourceFactory.setAudioSource(new JavaSource());
             
             
             
-            /*MultiDrawer drawer = new MultiDrawer();
+            MultiDrawer drawer = new MultiDrawer();
             drawer.addDrawer(new AwtDrawer(this));
 
             Image img = new Image();
@@ -56,20 +49,26 @@ public class Display implements StopListener {
                 long oldT = t;
                 t = System.nanoTime();
                 float delta = (t - oldT) / 1000000000f;
-                scene.drawFrame(img, delta);
+                manager.drawFrame(img, delta);
                 drawer.drawImage(img);
 
                 frames++;
-                //TODO: FPS limiter
+                try {
+                    //TODO: real FPS limiter
+                    Thread.sleep(20);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 if ((t - second) > 1000000000) {
                     System.out.println(frames+" fps");
                     frames = 0;
                     second = t;
                 }
             }
-            scene.stop();
+            manager.stop();
             drawer.stop();
-            source.stop();*/
+            AudioSourceFactory.getAudioSource().stop();
+            editor.stop();
         } catch (LineUnavailableException ex) {
             Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
         }
