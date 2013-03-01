@@ -16,28 +16,25 @@ public class TextScene extends Scene {
         return "Text";
     }
     
-    String content = "Hällo World!";
-    float scrollSpeed = Float.POSITIVE_INFINITY;
-    Character fallback='?';
-    int position=0;
-    boolean loop = true;
+    private String content = "Hällo World!";
+    private float scrollSpeed = 0;
+    private Character fallback='?';
+    private boolean loop = true;
+    private float position=0;
     
     
     Font font = new FontVarWidth();
-    float deltasum=0;
     
     
     @Override
     public void drawFrame(Image img, float delta) {
         
-        deltasum+=delta;
-        
-        while (deltasum>scrollSpeed) { position--; deltasum-=scrollSpeed; }
-        int relposition = position;
+        position+=delta*getScrollSpeed();
+        int relposition = getPosition();
         int currentChar =0;
-        while (relposition<Image.WIDTH && currentChar<content.length()) {
-            char c = content.charAt(currentChar);
-            int[] data = font.getCharacter(c,fallback);
+        while (relposition<Image.WIDTH && currentChar<getContent().length()) {
+            char c = getContent().charAt(currentChar);
+            int[] data = font.getCharacter(c, getFallback());
             
             if (data!=null) {
                 
@@ -63,7 +60,78 @@ public class TextScene extends Scene {
         img.fillRect(relposition, 0, Image.WIDTH, Image.HEIGHT, 0);
         
         //Check if whole text is outside on the left
-        if (relposition<0 && loop) position=64;
+        if (relposition<0 && isLoop()) setPosition(64);
+    }
+
+    /**
+     * @return the content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * @param content the content to set
+     */
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
+     * @return the scrollSpeed
+     */
+    public float getScrollSpeed() {
+        return scrollSpeed;
+    }
+
+    /**
+     * @param scrollSpeed the scrollSpeed to set
+     */
+    public void setScrollSpeed(float scrollSpeed) {
+        this.scrollSpeed = scrollSpeed;
+        setPosition(Math.round(position)); //Round position
+    }
+
+    /**
+     * @return the fallback
+     */
+    public Character getFallback() {
+        return fallback;
+    }
+
+    /**
+     * @param fallback the fallback to set
+     */
+    public void setFallback(Character fallback) {
+        this.fallback = fallback;
+    }
+
+    /**
+     * @return the position
+     */
+    public int getPosition() {
+        return Math.round(position);
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    /**
+     * @return the loop
+     */
+    public boolean isLoop() {
+        return loop;
+    }
+
+    /**
+     * @param loop the loop to set
+     */
+    public void setLoop(boolean loop) {
+        this.loop = loop;
     }
     
 }

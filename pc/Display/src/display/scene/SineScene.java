@@ -28,6 +28,7 @@ public class SineScene extends Scene {
         this.speed = speed;
     }
 
+    @Override
     public void drawFrame(Image img, float delta) {
         updateImage(img, a, b);
         t += delta;
