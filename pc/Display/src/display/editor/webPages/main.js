@@ -46,12 +46,15 @@ $(function(){
                     } else cont = prop.content;
                     
                     
-                    return l+"<tr><td>"+prop.name+"</td><td>"+cont+"</td><td>"+prop.type+"</td><td>"+prop.writable+"</td></tr>";
+                    return l+"<tr><td>"+prop.name+"</td><td>"+cont+"</td></tr>";
                 },'');
-                details.html("<table><tr><th>Name</th><th>Content</th><th>Type</th><th>Writable</th></tr>"+lines+"</table>"+
+                details.html("<table><tr><th>Name</th><th>Content</th></tr>"+lines+"</table>"+
                 
-                    '<button onclick="save()">Save changes</button><button onclick="deleteScene()">Delete this scene</button>');
-                
+                    '<button onclick="save()" id="savebutton">Save changes</button><button onclick="deleteScene()">Delete this scene</button>');
+                var handler = function() {
+                    $(this).css("background-color", '');
+                };
+                $('.edit').change(handler).keydown(handler);
             },
             error: function(err) {
                 alert(err);
@@ -99,6 +102,7 @@ $(function(){
     
     
     save = function() {
+        $('#savebutton').html("Saving");
         var saveData={};
         properties.forEach(function(prop) {
             if (!prop.writable) return;
@@ -110,15 +114,28 @@ $(function(){
         console.log(saveData);
             $.ajax({
                 url: '/json/scene/saveProps',
-                //dataType: 'json',
+                dataType: 'json',
                 data: saveData,
                 success: function(msg) {
-
-                    alert(msg);
+                    console.log(msg);
+                    if (msg==false) {
+                        alert("Saving failed");
+        $('#savebutton').html("Saving failed");
+                    } else {
+                        
+        $('#savebutton').html("Saved");
+                        for (var prop in msg) {
+                            var obj = $('#prop-'+prop);
+                            if (msg[prop])
+                                obj.css('background-color','lightgreen');
+                            else obj.css('background-color',"red");
+                        }
+                    }
 
                 },
                 error: function(err) {
                     alert(err);
+        $('#savebutton').html("Saving failed");
                 }
             });
     }
@@ -134,7 +151,7 @@ $(function(){
         return function(name, content,type) {
             
             
-            return '<select name="prop-'+name+'" id="prop-'+name+'">'+
+            return '<select class="edit" name="prop-'+name+'" id="prop-'+name+'">'+
             options.reduce(function(l,item){
                 var sel = "";
                 if (content==item.value) sel = " selected";
@@ -153,7 +170,7 @@ $(function(){
                     $('#prop-'+name).forceNumericOnly(allowPoint);
                 },10);
             }
-            return '<input type="text" id="prop-'+name+'" name="prop-'+name+'" value="'+content.replace(/"/g,"&quot;")+'" />';
+            return '<input class="edit" type="text" id="prop-'+name+'" name="prop-'+name+'" value="'+content.replace(/"/g,"&quot;")+'" />';
         } 
         
         
@@ -164,7 +181,7 @@ $(function(){
     //The function gets these parameters: name, content, type
     //And should return html code to display the editor
     //It should take care that the user input is available as $('#prop-<name>')
-    //where <name> is the first parameter.
+    //where <name> is the first parameter. The input element should be of class edit.
     var editors = [];
     editors['String'] = createText(false);
     editors['Character'] = editors['String'];

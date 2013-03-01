@@ -6,6 +6,7 @@ import display.editor.WebServer;
 import display.scene.Scene;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -55,26 +56,29 @@ public class JsonScene extends MethodCollection {
             @Override
             public void call(Map<String, String> params, DataOutputStream output, SceneManager manager) throws IOException {
                 output.writeBytes(WebServer.httpHeader(200, "application/json"));
-                boolean result = false;
+                Map<String,Boolean> result = null;
                 String paramStr = params.get("id");
                 if (paramStr != null) {
                     int id = new Integer(paramStr);
                     Scene scene = manager.getScene(id);
                     if (scene != null) {
-                        result=true;
+                        result = new HashMap<String,Boolean>();
                         SceneProperty[] prop = SceneProperties.getProperties(scene);
                         for (SceneProperty p : prop) {
                             if (p.writable) {
                                 String val = params.get("prop-"+p.name);
                                 if (val!=null) {
                                     boolean valRes = p.setValue(val);
-                                    result=result&&valRes;
+                                    result.put(p.name, valRes);
                                 }
                             }
                         }
                     }
                 }
-                output.writeBytes(Boolean.toString(result));
+                if (result==null)
+                    mapper.writeValue(output, false);
+                else
+                    mapper.writeValue(output,result);
             }
         });
     }
