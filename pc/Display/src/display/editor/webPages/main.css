@@ -16,8 +16,29 @@ html,body {
 }
 
 #menu {
+    padding-left: 1px;
     height: 70px;
     background-color: silver;
+}
+
+#menu a {
+    
+    display: inline-block;
+    width:69px;
+    height: 69px;
+    border: 1px solid black;
+    margin-right: 2px;
+    
+   -moz-box-sizing:    border-box;
+   -webkit-box-sizing: border-box;
+    box-sizing:        border-box;
+    
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    text-align: center;
+    line-height: 69px;
+    
 }
 #footer {
     height: 20px;
@@ -40,6 +61,24 @@ html,body {
     overflow:auto;
     height:100%;
     width:15em;
+    padding-top: 1px;
+}
+#scenelist a{
+    height: 2em;
+    line-height: 2em;
+    display: block;
+    width:15em;
+    border: 1px solid black;
+    margin-bottom: 2px;
+    
+   -moz-box-sizing:    border-box;
+   -webkit-box-sizing: border-box;
+    box-sizing:        border-box;
+    
+    color: black;
+    background-color: lightgoldenrodyellow;
+    text-decoration: none;
+    text-align: center;
 }
 #details{
     overflow:auto;
