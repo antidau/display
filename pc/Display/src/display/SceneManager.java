@@ -7,12 +7,10 @@ package display;
 import display.scene.Scene;
 import display.scene.SceneFactory;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- *
- * @author wilson
+ * This class provides a list of all top level scenes that currently exist.
  */
 public class SceneManager {
 

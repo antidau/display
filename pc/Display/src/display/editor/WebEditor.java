@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.editor;
 
 import display.editor.json.JsonProvider;
@@ -13,8 +9,7 @@ import java.net.URLDecoder;
 import javax.activation.MimetypesFileTypeMap;
 
 /**
- *
- * @author wilson
+ * Provides all Web Interface capabilities to edit Scenes.
  */
 public class WebEditor implements WebRequestHandler {
 
@@ -42,19 +37,37 @@ public class WebEditor implements WebRequestHandler {
         server.start();
     }
 
-    protected String escapePath(String path) {
+    /**
+     * Get the path to a file inside the classpath.
+     * Defeat tries to change to an upper directoy level by returning null if 
+     * detected.
+     * @param path Path to convert
+     * @return Classpath location to path
+     */
+    protected String getClassPath(String path) {
         if (path.contains("..")) {
             return null;
         }
         return "/display/editor/webPages" + path;
     }
 
-    //For development, try loading from src and not build, therefore we
-    //do not have to restart the program to copy from src to build
+    /**
+     * Try loading from src directory and not from build directory, therefore we
+     * do not have to restart the program to copy from src to build. This is
+     * useful for development
+     */
     final static boolean tryLoadFromSrc = true;
+    
+    /**
+     * Load a file from either classpath or from src directory if tryLoadFromSrc
+     * is set
+     * @param filename the file to load
+     * @return An InputStream containing the file
+     * @throws MalformedURLException
+     * @throws UnsupportedEncodingException 
+     */
     protected InputStream loadFile(String filename) throws MalformedURLException, UnsupportedEncodingException {
         if (tryLoadFromSrc) {
-            
             
             String location = getClass().getProtectionDomain().getCodeSource().getLocation().toString();
             
@@ -84,17 +97,29 @@ public class WebEditor implements WebRequestHandler {
             return this.getClass().getResourceAsStream(filename);
     }
 
+    /**
+     * Send a static file to the client
+     * @param path The path to the file to send
+     * @param output Stream to output into
+     * @param printBody true if content is needed
+     * @throws IOException 
+     */
     protected void readFile(String path, DataOutputStream output,
             boolean printBody) throws IOException {
         try {
 
-            String p = escapePath(path);
+            //Try to get File
+            String p = getClassPath(path);
             InputStream requestedfile = loadFile(p);
-            String file_type = mime.getContentType(new File(p.toLowerCase()));
 
+            //Does the file exist?
             if (requestedfile != null) {
+                //Get mime type
+                String file_type = mime.getContentType(new File(p.toLowerCase()));
                 System.out.println("file served, mime: " + file_type);
+                //Write header
                 output.writeBytes(WebServer.httpHeader(200, file_type));
+                //Copy file to output if needed
                 if (printBody) {
                     byte[] buf = new byte[1024];
                     int len;
@@ -104,22 +129,23 @@ public class WebEditor implements WebRequestHandler {
                 }
                 requestedfile.close();
             } else {
+                //Send not found message
                 output.writeBytes(WebServer.httpHeader(404));
                 output.writeBytes("not found");
                 System.out.println("file not found");
             }
         } catch (Exception e) {
-            try {
                 e.printStackTrace();
                 //something went wrong, send 500
                 output.writeBytes(WebServer.httpHeader(500));
                 output.writeBytes("error");
-            } catch (Exception e2) {
-            }
-
         }
     }
 
+    
+    /*
+     * This is called by the web server for every request.
+     */
     @Override
     public void handleRequest(String path, DataOutputStream output,
             boolean printBody) throws IOException {
@@ -132,8 +158,10 @@ public class WebEditor implements WebRequestHandler {
             output.writeBytes("Location: /index.html\r\n");
             output.writeBytes("\r\n");
             System.out.println("redirected");
+        //Dynamic call?
         } else if (path.startsWith("/json/")) {
             json.call(path,output,printBody);
+        //Else its a static file
         } else {
             readFile(path, output, printBody);
         }

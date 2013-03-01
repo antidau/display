@@ -1,11 +1,10 @@
 package display.scene.text;
 
 /**
- *
- * @author Jakob Wenzel
+ * A font which provides the look of characters drawn by a TextScene.
  */
 public abstract class Font {
-        /**
+    /**
      * Get the pixel data for the given character, or, if not available, the
      * data for the fallback character.
      *

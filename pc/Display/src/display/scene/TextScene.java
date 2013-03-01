@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene;
 
 import display.draw.Image;
@@ -11,8 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
- * @author wilson
+ * Display text.
  */
 public class TextScene extends Scene {
 

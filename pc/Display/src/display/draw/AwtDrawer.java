@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.draw;
 
 import display.StopListener;
@@ -52,13 +48,11 @@ class Content extends Canvas {
 }
 
 /**
- *
- * @author wilson
+ * Draw Images to a Awt Window on Screen.
  */
 public class AwtDrawer extends Drawer {
 
     JFrame frame;
-    //JPanel[][] content;
 
     Content content;
     public AwtDrawer(final StopListener listen) {

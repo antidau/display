@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene.combine;
 
 import display.draw.Image;
 import display.scene.Scene;
 
 /**
- *
- * @author Jakob Wenzel
+ * Combine other Scenes by multiplying every pixel value.
  */
 public class MultiplyScene extends Scene {
 

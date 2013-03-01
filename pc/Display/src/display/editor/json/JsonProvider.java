@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.editor.json;
 
 import display.SceneManager;
@@ -15,8 +11,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 
 /**
- *
- * @author Jakob Wenzel
+ * 
  */
 public class JsonProvider {
     SceneManager manager;
@@ -28,10 +23,19 @@ public class JsonProvider {
     
     public JsonProvider(SceneManager manager) {
         this.manager = manager;
-        JsonSceneList.addMethods(this);
-        JsonScene.addMethods(this);
+        
+        CollectedMethods.addMethods(this);
     }
 
+    /**
+     * Call a Json Method.
+     * The actual call is only done if printBody is true, otherwise we only
+     * check if the method exists.
+     * @param path The path to the method to call
+     * @param output Stream to output into
+     * @param printBody Print body text?
+     * @throws IOException 
+     */
     public void call(String path, DataOutputStream output, boolean printBody) throws IOException {
         //Get method name
         int pos = path.indexOf('?');
@@ -47,6 +51,7 @@ public class JsonProvider {
         //Finding method
         JsonMethod method = methods.get(methodName);
         
+        //Error if not found
         if (method==null) {
            output.writeBytes(WebServer.httpHeader(404));
            if (printBody) 
@@ -54,6 +59,7 @@ public class JsonProvider {
            return;
         }
         
+        //Do the call if we want body text
         if (printBody) {
         
             //Decode parameters

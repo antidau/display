@@ -1,15 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.draw;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author wilson
+ * Drawer that relays every draw request to a list of drawers, therefore making
+ * it possible to have multiple drawers.
  */
 public class MultiDrawer extends Drawer{
 

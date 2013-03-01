@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene.sound;
 
 import java.util.HashSet;
@@ -13,8 +9,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
 /**
- *
- * @author Jakob Wenzel
+ * Get sound data with javax.sound.sampled
  */
 public class JavaSource extends AudioSource {
 

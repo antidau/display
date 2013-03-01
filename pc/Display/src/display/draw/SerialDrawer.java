@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.draw;
 
 /**
- *
- * @author wilson
+ * Send Images via some serial port to the Display to be shown there.
+ * Nothing is implemented yet, all methods throw an
+ * UnsupportedOperationException.
  */
 public class SerialDrawer extends Drawer{
 

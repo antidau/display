@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene.sound;
 
 import java.io.BufferedReader;
@@ -11,8 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author wilson
+ * Get sound data from pulseaudio by running pacat. Does not work yet. This has
+ * the advantage that sound data is known before it is actually played, thereby
+ * eliminating lag.
  */
 public class PulseSource extends AudioSource {
 

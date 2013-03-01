@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.editor.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,12 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @author Jakob Wenzel
+ * JsonMethods which are related to the list of scenes
  */
-public class JsonSceneList {
+public class JsonSceneList extends MethodCollection {
 
-    public static void addMethods(JsonProvider provider) {
+    public void addMethods(JsonProvider provider) {
         final ObjectMapper mapper = new ObjectMapper();
         
         

@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display;
 
 import display.draw.AwtDrawer;
 import display.draw.Image;
 import display.draw.MultiDrawer;
+import display.editor.WebEditor;
 import display.scene.Scene;
-import display.scene.SineScene;
 import display.scene.SoundScene;
 import display.scene.SoundSceneStyle;
 import display.scene.TextScene;
@@ -20,12 +16,13 @@ import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
 
 /**
- *
- * @author wilson
+ * Main class to start everything.
  */
 public class Display implements StopListener {
 
     /**
+     * Start from command line:
+     * Create the display class.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -38,8 +35,8 @@ public class Display implements StopListener {
 
     public Display() {
         try {
-            /*SceneManager manager = new SceneManager();
-             new WebEditor(manager).start();*/
+            SceneManager manager = new SceneManager();
+             new WebEditor(manager).start();
             AudioSource source = new JavaSource();
             //Scene scene = new SoundScene(source);
             //Scene scene = new TextScene();
@@ -47,7 +44,7 @@ public class Display implements StopListener {
             
             
             
-            MultiDrawer drawer = new MultiDrawer();
+            /*MultiDrawer drawer = new MultiDrawer();
             drawer.addDrawer(new AwtDrawer(this));
 
             Image img = new Image();
@@ -72,7 +69,7 @@ public class Display implements StopListener {
             }
             scene.stop();
             drawer.stop();
-            source.stop();
+            source.stop();*/
         } catch (LineUnavailableException ex) {
             Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
         }

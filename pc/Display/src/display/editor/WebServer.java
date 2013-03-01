@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.editor;
 
 import java.io.*;
@@ -13,8 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author wilson
+ * Create a web server, content to send is provided by a WebRequestHandler.
+ * This is heavily based on some tutorial, unfortunately I forgot to write
+ * down the source... Sorry :(
  */
 public class WebServer extends Thread {
 

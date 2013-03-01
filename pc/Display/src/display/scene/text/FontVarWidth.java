@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene.text;
 
 import java.util.HashMap;
 
 /**
- *
- * @author Jakob Wenzel
+ * Basic Font where every character is only as wide as it needs to be.
  */
 public class FontVarWidth extends Font {
 
@@ -19,6 +14,7 @@ public class FontVarWidth extends Font {
         //Font data from glcd-arduino, http://code.google.com/p/glcd-arduino/source/browse/trunk/glcd/fonts/SystemFont5x7.h
         //Shifted one bit to the left to make space for Umlauts
         //licensed under LGPL
+        //Deleted most of the 0x00 bytes to make it variable width.
         map.put(' ', new int[]{0x00, 0x00, 0x00, 0x00, 0x00});
         map.put('!', new int[]{0x00, 0xbe});
         map.put('"', new int[]{0x0e, 0x00, 0x0e});

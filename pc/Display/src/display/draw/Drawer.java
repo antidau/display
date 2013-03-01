@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.draw;
 
 /**
- *
- * @author wilson
+ * Base class to everything that can draw Images on Screen or on LED Displays or
+ * anything else.
  */
 public abstract class Drawer {
    public abstract void drawImage(Image data); 

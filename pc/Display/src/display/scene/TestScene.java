@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene;
 
 import display.draw.Drawer;
 import display.draw.Image;
 
 /**
- *
- * @author wilson
+ * Display an ugly test animation.
  */
 public class TestScene extends Scene {
 

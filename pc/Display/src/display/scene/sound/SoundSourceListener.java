@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene.sound;
 
 /**
- *
- * @author wilson
+ * Listener which is called when a AudioSource has filled its buffer.
  */
 public interface SoundSourceListener {
     public void dataArrived(byte[] data);

@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene;
 
 /**
- *
- * @author Jakob Wenzel
+ * The style of spectrum to draw in a SoundScene.
  */
 
 public enum SoundSceneStyle {

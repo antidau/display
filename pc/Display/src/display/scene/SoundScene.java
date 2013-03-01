@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene;
 
 import ddf.minim.analysis.FFT;
@@ -11,8 +7,7 @@ import display.scene.sound.SoundSourceListener;
 
 
 /**
- *
- * @author wilson
+ * Draw a spectrum of sound incoming via a AudioSource.
  */
 public class SoundScene extends Scene implements SoundSourceListener {
     //TODO: Dynamically adjust scale

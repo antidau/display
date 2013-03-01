@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene.text;
 
 import java.util.HashMap;
 
 /**
- *
- * @author Jakob Wenzel
+ * Basic font where every character has the same width.
  */
 public class FontFixedWidth extends Font{
 

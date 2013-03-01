@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package display.scene;
 
 import java.util.HashMap;
@@ -11,8 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Jakob Wenzel
+ * Create Scenes from their name
  */
 public class SceneFactory {
     Map<String,Class<? extends Scene>> sceneTypes = new HashMap<String,Class<? extends Scene>>();
@@ -22,6 +17,8 @@ public class SceneFactory {
     public SceneFactory() {
         addSceneType("Sine",SineScene.class);
         addSceneType("Test",TestScene.class);
+        addSceneType("Text",TextScene.class);
+        addSceneType("Sound", SoundScene.class);
     }
     
     public Set<String> getSceneTypes() {
