@@ -4,6 +4,7 @@
  */
 package display;
 
+import display.draw.Image;
 import display.scene.Scene;
 import display.scene.SceneFactory;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class SceneManager {
 
     ArrayList<Scene> scenes = new ArrayList<Scene>();
     SceneFactory sceneFactory = new SceneFactory();
+    
+    int current =0;
 
     public int getSceneCount() {
         return scenes.size();
@@ -47,5 +50,17 @@ public class SceneManager {
 
     public SceneFactory getSceneFactory() {
         return sceneFactory;
+    }
+    
+    
+    public void drawFrame(Image img,float delta) {
+        if (scenes.size()>current) {
+            scenes.get(current).drawFrame(img, delta);
+        } else img.fill(0);
+    }
+
+    void stop() {
+        for(Scene scene : scenes)
+            scene.stop();
     }
 }
