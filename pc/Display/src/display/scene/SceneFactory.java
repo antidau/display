@@ -31,8 +31,10 @@ public class SceneFactory {
         try {
             return (Scene)type.newInstance();
         } catch (InstantiationException ex) {
+            Logger.getLogger(SceneFactory.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (IllegalAccessException ex) {
+            Logger.getLogger(SceneFactory.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
